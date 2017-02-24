@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Domain.Hotel>
+
+
+<h2>Hotels</h2>
+
+Hotel Name: @Html.TextBox("filterHotelName")
+Serach Criteria: @Html.DropDownList("SearchCriteria", new List<SelectListItem>
+{
+    new SelectListItem{ Text="Hotel Name", Value = "HotelName" },
+    new SelectListItem{ Text="Hotel Rating", Value = "HotelRating" },
+ }) 
+ 
+
+@Html.CheckBox("IsReady", true) Is Ready
+<div id="HotelsListDiv">
+    @Html.Partial("HotelsView", Model)
+</div>

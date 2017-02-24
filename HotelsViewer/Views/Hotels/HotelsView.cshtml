@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Domain.Hotel>
+
+
+@{
+    ViewBag.Title = "Hotels List";
+    WebGrid grid = new WebGrid(source: Model, canSort: false);
+}
+<div id="main" style="padding:25px; background-color:white;">
+    @grid.GetHtml(
+                htmlAttributes: new { id = "gridT", width = "100%" },
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                        grid.Column("HotelId", "Hotel ID"),
+                        grid.Column("HotelName", "Hotel Name"),
+                        grid.Column("Location", "Location"),
+                        grid.Column("Rating", "Rating"),
+                        grid.Column("IsAvailable", "IsAvailable"),
+                        grid.Column("IsRecommendedProduct", "IsRecommendedProduct"),
+                        grid.Column("StartingPrice", "StartingPrice"),
+                        grid.Column("Currency", "Currency"),
+
+                        grid.Column(format: (hotel) =>
+                        {
+                            WebGrid subGrid = new WebGrid(source: hotel.Rooms);
+                            return subGrid.GetHtml(
+                                htmlAttributes: new { id = "subT" },
+                                fillEmptyRows: false,
+                                columns: subGrid.Columns(
+                                        subGrid.Column("RoomId", "RoomId"),
+                                        subGrid.Column("RoomName", "RoomName"),
+                                        subGrid.Column("Occupancy", "Occupancy"),
+                                        subGrid.Column("Status", "Status")
+                                    )
+                                );
+                        })
+                    )
+                )
+</div>
